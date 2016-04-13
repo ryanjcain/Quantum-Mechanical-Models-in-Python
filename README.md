@@ -2,7 +2,7 @@
 2-D time dependent models of particles moving through traditional and Fourier space.  
 
 Overall Inspiration:
-1.  [Quantum Mechanics With Python](https://jakevdp.github.io/blog/2012/09/05/quantum-python/)
+...1.  [Quantum Mechanics With Python](https://jakevdp.github.io/blog/2012/09/05/quantum-python/)
 
 
 Understanding the Schrodinger Equation:
