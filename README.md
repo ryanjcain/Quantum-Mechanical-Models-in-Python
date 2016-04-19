@@ -24,3 +24,7 @@ Understanding the FFT (Fast Fourier Transform) Algorithm
 1. [Time Series Super Powers](https://www.youtube.com/watch?v=FjmwwDHT98c)
 
 2. [The Algorithm](https://www.youtube.com/watch?v=EsJGuI7e_ZQ&nohtml5=False)
+
+MatPlotLib
+
+1. [Animation Practice](https://jakevdp.github.io/blog/2012/08/18/matplotlib-animation-tutorial/)
