@@ -9,7 +9,8 @@ line, = ax.plot([], [], lw=2) #lw = linewidth. plot() is a Line Class
 
 
 
-#Create a baseframe...make a background to plot on
+#Create a baseframe...make a background to plot.  Runs once at the beginning
+#... accomplishes everything that needs to be done just once
 def init():
     line.set_data([],[])
     return line,
@@ -27,7 +28,7 @@ def animate(i): #i is the frame number
 #have changed.
 anim = animation.FuncAnimation(fig, animate, init_func=init,
                                 frames=100, interval=20, blit=False)
-#Dr. Kellogg says on mac... blit has to be false
+#Dr. Kellogg says on mac... blit has to be set to False
 
 # save the animation as an mp4.
 anim.save('basic_animation.mp4', fps=30)
