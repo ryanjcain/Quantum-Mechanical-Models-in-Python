@@ -108,5 +108,5 @@ class Shrodinger(object):
                 * np.sqrt(2 * np.pi) / self.dx)
 
     #Create the integrand for the inverse transform (k -> x)
-    def set_psi_k(self, psi_k):
-        self.psi_mod_k = (psi_k * np.exp(1j * self.x[0]))
+    '''def set_psi_k(self, psi_k):
+        self.psi_mod_k = (psi_k * np.exp(1j * self.x[0]))'''
