@@ -63,16 +63,17 @@ class Shrodinger(object):
         self.dt = None #Check this syntax
         self.N = len(x)
         self.dx = self.x[1] - self.x[0] #difference between points in numpy array
-        self.dk = 2 * np.pi / (self.N * self.dx) #understnading needed
+        self.dk = 2 * np.pi / (self.N * self.dx) #full wavelength / total x space distance
+
 
 
         #Set initial momentum scale
         #numpy.arrange is range() but returns ndarray instead of list
         if k0 == None:
-            self.k0 = -0.5 * self.N * self.dk
+            self.k0 = -0.5 * self.N * self.dk #total k space length
         else:
             self.k0 = k0
-        #UNDERSTANDING NEEDED:::::::::!!!!!!!!
+        #Create an array of ALL the k values to be used
         self.k = self.k0 + self.dk * np.arange(self.N)
         self.psi_x = psi_x0
 
