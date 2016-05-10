@@ -60,7 +60,7 @@ class Schrodinger(object):
         self.hbar = hbar
         self.m = m
         self.t = t0
-        self.dt = None #Check this syntax
+        self.dt_ = None #Check this syntax
         self.N = len(x)
         self.dx = self.x[1] - self.x[0] #difference between points in numpy array
         self.dk = 2 * np.pi / (self.N * self.dx) #full wavelength / total x space distance
@@ -118,11 +118,11 @@ class Schrodinger(object):
         return self.psi_mod_k * np.exp(-1j * self.x[0]
                                             * self.dk * np.arange(self.N))
 
-    def get_dt(self):
-        return self.dt
+    def _get_dt(self):
+        return self.dt_ #This value of dt is local to the class
 
 
-    def set_dt(self, dt):
+    def _set_dt(self, dt):
         """
         Computes attributes to be used in time_step():
             half step in x
@@ -134,8 +134,8 @@ class Schrodinger(object):
         Returns: None
         """
 
-        if dt != self.dt:
-            self.dt = dt
+        if dt != self.dt_:
+            self.dt_ = dt
             #Time step solution to V part of x-space Schrodinger (worked out in notes)
             self.x_evolve_half = np.exp(-0.5 * 1j * self.V_x
                                         / self.hbar * dt)
@@ -147,7 +147,7 @@ class Schrodinger(object):
     #Anytime psi_x is set to something, these functions are called
     psi_x = property(get_psi_x, set_psi_x)
     psi_k = property(get_psi_k, set_psi_k)
-    dt = property(get_dt, set_dt)
+    dt = property(_get_dt, _set_dt)
 
 
     #Fast Fourier Transforms!!!!
@@ -162,6 +162,9 @@ class Schrodinger(object):
         Perform a series of time-steps with leapfrong integration based on the
         solutions to the time-dependent Scrodinger Equation.
         (worked out in notebook)
+
+        These values all depend on dt.  Calculating them up front, while dt
+        updates is more efficient.
 
         Parameters:
         __________
@@ -239,6 +242,8 @@ def theta(x):
 def square_barrier(x, width, height):
     return height * (theta(x) - theta(x - width))
 
+def parabolic_well(arg):
+    pass
 ###############################################################################
 # Create the Animation                                                        #
 ###############################################################################
@@ -293,13 +298,13 @@ S = Schrodinger(x=x,
 #   Matplotlib Animation:                                                     #
 ###############################################################################
 
-fig = pl.figure()
+fig = plt.figure()
 
 # plotting limits
 xlim = (-100, 100)
 klim = (-5, 5)
 
-# top axes show x-space data
+# top axes show x-space data #AND OMG LATEX IN MATPLOTLIB!!!!
 ymin = 0
 ymax = V0
 ax1 = fig.add_subplot(211, xlim=xlim,
@@ -321,7 +326,7 @@ ymax = abs(S.psi_k).max()
 ax2 = fig.add_subplot(212, xlim=klim,
                       ylim=(ymin - 0.2 * (ymax - ymin),
                             ymax + 0.2 * (ymax - ymin)))
-psi_k_line, ax2.plot([], [], c='r', label=r'$|\psi(k)|$')
+psi_k_line, = ax2.plot([], [], c='r', label=r'$|\psi(k)|$')
 
 p0_line1 = ax2.axvline(-p0 / hbar, c='k', ls=':', label='r$\pm p_0$')
 p0_line2 = ax2.axvline(p0 / hbar, c='k', ls=':')
@@ -363,6 +368,8 @@ anim = animation.FuncAnimation(fig, animate, init_func=init,
 
 
 # save the animation as an mp4.
-anim.save('Schrodinger.mp4', fps=30)
+#anim.save('Schrodinger.mp4', fps=30)
+
+
 #Run the matplotlib program
 plt.show()
