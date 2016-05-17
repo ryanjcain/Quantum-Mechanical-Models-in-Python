@@ -230,20 +230,27 @@ def gauss_k(k, a, x0, k0):
 
 def theta(x):
     """
+    Function used to set the value for the potential function V(x)
+
     returns 0 if x <= 0, and 1 if x > 0
     """
     #Array math is better:
     x = np.asarray(x)
     y = np.zeros(x.shape)
     #Set y equal to 1 if x > 0!!!! SLICK!!!!
-    y[x > 0] = 1.0
+    y[x > 0] = 1
     return y
 
 def square_barrier(x, width, height):
     return height * (theta(x) - theta(x - width))
 
-def parabolic_well(arg):
-    pass
+
+##My Function for a Parabolic Well###
+def parabolic_well(x, a, h=0, k=0):
+    y = a*((x - h)**2) + k
+    y[y > 2.0] = 2.0
+    return y
+
 ###############################################################################
 # Create the Animation                                                        #
 ###############################################################################
@@ -264,11 +271,14 @@ dx = 0.1
 x = dx * (np.arange(N) - 0.5 * N) #Create array of all x's
 
 # specify potential
-V0 = 1.5
+V0 = 2.0
 L = hbar / np.sqrt(2 * m * V0)
 a = 3 * L
 x0 = -60 * L
 V_x = square_barrier(x, a, V0)
+#V_x = parabolic_well(x, 5*(1/0.5E4))
+
+#Potential limits so particle stays in x range:
 V_x[x < -98] = 1E6
 V_x[x > 98] = 1E6
 
@@ -310,7 +320,7 @@ ymax = V0
 ax1 = fig.add_subplot(211, xlim=xlim,
                       ylim=(ymin - 0.2 * (ymax - ymin),
                             ymax + 0.2 * (ymax - ymin)))
-psi_x_line, = ax1.plot([], [], c='r', label=r'$|\psi(x)^2|$')
+psi_x_line, = ax1.plot([], [], c='r', label=r'$|\psi(x)|$')
 V_x_line, = ax1.plot([], [], c='k', label=r'$V(x)$')
 center_line = ax1.axvline(0, c='k', ls=':',
                           label = r"$x_0 + v_0t$")
@@ -327,8 +337,7 @@ ax2 = fig.add_subplot(212, xlim=klim,
                       ylim=(ymin - 0.2 * (ymax - ymin),
                             ymax + 0.2 * (ymax - ymin)))
 psi_k_line, = ax2.plot([], [], c='r', label=r'$|\psi(k)|$')
-
-p0_line1 = ax2.axvline(-p0 / hbar, c='k', ls=':', label='r$\pm p_0$')
+p0_line1 = ax2.axvline(-p0 / hbar, c='k', ls=':', label='$\pm p_0$')
 p0_line2 = ax2.axvline(p0 / hbar, c='k', ls=':')
 mV_line = ax2.axvline(np.sqrt(2 * V0) / hbar, c='k', ls='--',
                       label=r'$\sqrt{2mV_0}$')
