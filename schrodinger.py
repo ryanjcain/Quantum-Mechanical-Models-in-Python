@@ -271,12 +271,12 @@ dx = 0.1
 x = dx * (np.arange(N) - 0.5 * N) #Create array of all x's
 
 # specify potential
-V0 = 2.0
+V0 = 1.0
 L = hbar / np.sqrt(2 * m * V0)
 a = 3 * L
 x0 = -60 * L
 V_x = square_barrier(x, a, V0)
-#V_x = parabolic_well(x, 5*(1/0.5E4))
+#V_x = parabolic_well(x, (1/0.5E4))
 
 #Potential limits so particle stays in x range:
 V_x[x < -98] = 1E6
