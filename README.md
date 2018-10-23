@@ -1,5 +1,11 @@
 # Quantum-Mechanical-Models-in-Python
-2-D time dependent models of particles moving through traditional and Fourier space.  
+CS presentation 2016
+2-D time dependent models of particles moving through traditional and Fourier space.
+
+Goals:
+1. Understand mechanics of the code.
+2. Modify to add implementation of parabolic well.
+3. Present in an engaging manner to the class.
 
 Overall Inspiration:
 
